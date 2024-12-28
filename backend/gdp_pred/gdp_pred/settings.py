@@ -30,10 +30,12 @@ ALLOWED_HOSTS = [
     'http://127.0.0.1:8000',
     'localhost',
     '127.0.0.1',
+    '.vercel.app',
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173', 
+    'https://gdp-forecast.vercel.app',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
