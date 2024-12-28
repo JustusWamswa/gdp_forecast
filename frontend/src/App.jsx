@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, createTheme, Stack, ThemeProvider, Typography } from '@mui/material'
+import { Box, Button, createTheme, Stack, ThemeProvider, Typography, useMediaQuery } from '@mui/material'
 import Feature from '../components/Feature'
 import { green, purple } from '@mui/material/colors';
 import './App.css'
@@ -21,7 +21,9 @@ function App() {
 
   const [features, setFeatures] = useState(textfields)
   const [predictedGDP, setPredictedGDP] = useState(0)
-  const [debouncedQuery, setDebouncedQuery] = useState(features);
+  const [debouncedQuery, setDebouncedQuery] = useState(features)
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+
   const api = import.meta.env.VITE_API
 
   useEffect(() => {
@@ -64,13 +66,13 @@ function App() {
     <ThemeProvider theme={theme}>
       <Box maxWidth={'90%'} mx={'auto'}>
         <Typography color='primary.dark' fontWeight={'bold'} variant='h5' py={2}>GDP Forecasting Tool</Typography>
-        <Stack direction={'row'} justifyContent={'space-evenly'}>
-          <Box width={'50%'} bgcolor={'rgba(2,178,175,0.08)'} px={5} py={2} borderRadius={5}>
+        <Stack direction={isMobile ? 'column' : 'row'} justifyContent={'space-evenly'}>
+          <Box width={isMobile ? '100%' : '50%'} bgcolor={'rgba(2,178,175,0.08)'} px={isMobile ? 1 : 5} py={2} borderRadius={5}>
             <Typography variant='subtitle2'>Forecasted GDP</Typography>
             <Typography variant='h4' >{(predictedGDP/1e+9).toFixed(2)} B</Typography>
             <GDPChart prediction={predictedGDP} />
           </Box>
-          <Box width={'30%'}>
+          <Box width={isMobile ? '100%' : '30%'} marginTop={isMobile && 5}>
             <Typography variant='subtitle2' gutterBottom pb={2}>
               Adjust parameters using the text boxes or sliders below:
             </Typography>

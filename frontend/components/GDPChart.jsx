@@ -1,10 +1,13 @@
 import React from 'react'
 import { LineChart } from '@mui/x-charts/LineChart'
 import { GDPHistoryData, GDPHistoryYears } from '../cache/cache'
-import star from '../src/assets/star.png'
+import { useMediaQuery, useTheme } from '@mui/material'
 
 function GDPChart(props) {
   const { prediction } = props
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+
   const repeatedArray = Array(GDPHistoryData.length).fill(null)
   const predictionData = [...GDPHistoryData, prediction].map((data) => data == null ? null : (data / 1e+9).toFixed(2))
 
@@ -20,6 +23,9 @@ function GDPChart(props) {
       },
         '& .MuiLineElement-series-Forecast': {
           strokeDasharray: '10 5',
+      },
+      '& .MuiChartsAxis-label': {
+        transform: 'translateX(-10px)',
       }
       }}
       xAxis = {
@@ -49,8 +55,8 @@ function GDPChart(props) {
           label: 'Historical',
         }
         ]}
-      width = { 500}
-      height = { 400}
+      width = {isMobile ? 350 : 500}
+      height = {isMobile ? 300 : 400}
     />
   )
 }
