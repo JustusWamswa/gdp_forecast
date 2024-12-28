@@ -2,10 +2,8 @@ from django.http import JsonResponse
 import json
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-# from ..RFBNNPSO.main import get_output
 
 import math
-import numpy as np
 
 # Extension for Double (Python float already supports operations directly)
 def squared(x):
@@ -89,8 +87,6 @@ def get_inference(request):
     try:
         data = json.loads(request.body)
         inputs = data.get('inputs')
-        # inputs = [1995,475000, 16108000000, 41205000000, 42908000000, 8134000000, 24300, 475000, 9800, 6, 1000000000, 422463, 7472000000, 15559900000, 129316, 6591338686, 19815172647, 37910198671, 70246000000]
-        # output = get_output(inputs)
         normalized_inputs = [
             2 * ((val - min_val) / (max_val - min_val)) - 1
             for val, min_val, max_val in zip(inputs, denorm_list_mins, denorm_list_maxes)
@@ -102,7 +98,6 @@ def get_inference(request):
             + ((denorm_ref_max + denorm_ref_min) / 2)
         )
         denormalized_value = max(0, denormalized_value)
-        # print(denormalized_value)
         return JsonResponse({'status': 'success', 'prediction': denormalized_value}, status=201)
     
     except Exception as e:
