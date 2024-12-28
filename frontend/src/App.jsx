@@ -47,7 +47,6 @@ function App() {
       return feature.value
     })
     const payload = { "inputs": featureValues }
-    console.log(payload)
     try {
       const res = await fetch(api, {
         method: 'POST',
@@ -55,7 +54,6 @@ function App() {
         body: JSON.stringify(payload)
       })
       const data = await res.json()
-      console.log(data)
       setPredictedGDP(data?.prediction)
     } catch (error) {
       console.log(error)
