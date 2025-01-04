@@ -49,6 +49,7 @@ function App() {
       return feature.value
     })
     const payload = { "inputs": featureValues }
+    console.log(payload)
     try {
       const res = await fetch(api, {
         method: 'POST',
