@@ -28,11 +28,6 @@ function App() {
   const api = import.meta.env.VITE_API
 
   useEffect(() => {
-    features.forEach(feature => {
-      if(feature?.name.toLowerCase() === 'year') {
-        setInterpolationYear(feature.value)
-      }
-    })
     const handler = setTimeout(() => {
       setDebouncedQuery(features);
     }, 500);
@@ -64,6 +59,11 @@ function App() {
       })
       const data = await res.json()
       setPredictedGDP(data?.prediction)
+      features.forEach(feature => {
+        if(feature?.name.toLowerCase() === 'year') {
+          setInterpolationYear(feature.value)
+        }
+      })
     } catch (error) {
       console.log(error)
     }
@@ -75,7 +75,7 @@ function App() {
         <Typography color='primary.dark' fontWeight={'bold'} variant='h5' py={2}>GDP Forecasting Tool</Typography>
         <Stack direction={isMobile ? 'column' : 'row'} justifyContent={'space-evenly'}>
           <Box width={isMobile ? '100%' : '50%'}>
-            <Box bgcolor={'rgba(2,178,175,0.08)'} px={isMobile ? 1 : 5} py={2} borderRadius={5} mb={1}>
+            <Box bgcolor={'rgba(2,178,175,0.08)'} minHeight={'60vh'} px={isMobile ? 1 : 5} py={2} borderRadius={5} mb={1}>
               <Typography variant='subtitle2'>Forecasted GDP</Typography>
               <Typography variant='h4' >{(predictedGDP / 1e+9).toFixed(2)} B</Typography>
               <GDPChart prediction={predictedGDP} predictionYear={interpolationYear} />
