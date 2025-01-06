@@ -47,6 +47,9 @@ function App() {
 
   const handlePredict = async () => {
     const featureValues = features.map((feature) => {
+      if(feature.name.includes('Bn')) {
+        return feature.value * 1e+9
+      }
       return feature.value
     })
     const payload = { "inputs": featureValues }
