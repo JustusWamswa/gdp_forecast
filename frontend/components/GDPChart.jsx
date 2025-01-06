@@ -4,7 +4,7 @@ import { GDPHistoryData, GDPHistoryYears } from '../cache/cache'
 import { useMediaQuery, useTheme } from '@mui/material'
 
 function GDPChart(props) {
-  const { prediction } = props
+  const { prediction, predictionYear } = props
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
@@ -12,6 +12,9 @@ function GDPChart(props) {
   const predictionData = [...GDPHistoryData, prediction].map((data) => data == null ? null : (data / 1e+9).toFixed(2))
 
   const yearFormatter = (date) => date.getFullYear().toString()
+  GDPHistoryYears[GDPHistoryYears.length - 1] = predictionYear
+  const minYear = new Date(Math.min(...GDPHistoryYears), 0, 1)
+  const maxYear = new Date(Math.max(...GDPHistoryYears) + 3, 0, 1)
 
   return (
     <LineChart
@@ -34,7 +37,9 @@ function GDPChart(props) {
           data: GDPHistoryYears.map(year => new Date(year, 0, 1)),
           label: 'Year',
           scaleType: 'time',
-          valueFormatter: yearFormatter
+          valueFormatter: yearFormatter,
+          min: minYear,
+          max: maxYear,
         },
             ]}
       yAxis = {
